@@ -101,6 +101,32 @@ app.post("/todos",(req,res) => {
   res.status(400).send("등록에 문제가 발생");
   });
 });
+
+app.post("/todos/end/:id", (req,res) => {
+  const params = req.params;
+  const {id} =params;
+  const yn = "Y";
+  models.Todo.update(
+  {
+      end_yn : yn,
+  },
+  {
+      where : {
+          id,
+      },
+  }
+  ).then((result) => {
+      res.send({
+          result :true,
+      });
+      console.log("id:::"+JSON.stringify(id))
+  }).catch((error) => {
+      console.error(error);
+      res.status(500).send("에러가 발생했습니다");
+  });
+});
+
+
 /* study 불러오기 ,등록 */
 
 app.get("/studies",(req,res)=>{
